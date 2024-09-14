@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Analysis Result</title>
+</head>
+<body>
+    <h1>Analysis Result</h1>
+
+    {% if result.error %}
+        <p style="color: red;">{{ result.error }}</p>
+    {% else %}
+        <h2>Input Wallets:</h2>
+        {% for wallet in result.fund_summary.input_wallets %}
+            <div>
+                <strong>Address:</strong> {{ wallet.address }}<br>
+                Balance: {{ wallet.balance / 1e8 }} BTC ({{ (wallet.balance / 1e8) * result.btc_to_inr | round(2) }} INR)<br>
+                Total Received: {{ wallet.total_received / 1e8 }} BTC ({{ (wallet.total_received / 1e8) * result.btc_to_inr | round(2) }} INR)<br>
+                Total Sent: {{ wallet.total_sent / 1e8 }} BTC ({{ (wallet.total_sent / 1e8) * result.btc_to_inr | round(2) }} INR)<br>
+                Total Transactions: {{ wallet.n_tx }}
+            </div>
+            <hr>
+        {% endfor %}
+
+        <h2>End Wallets:</h2>
+        {% for wallet in result.fund_summary.end_wallets %}
+            <div>
+                <strong>Address:</strong> {{ wallet.address }}<br>
+                Balance: {{ wallet.balance / 1e8 }} BTC ({{ (wallet.balance / 1e8) * result.btc_to_inr | round(2) }} INR)<br>
+                Total Received: {{ wallet.total_received / 1e8 }} BTC ({{ (wallet.total_received / 1e8) * result.btc_to_inr | round(2) }} INR)<br>
+                Total Sent: {{ wallet.total_sent / 1e8 }} BTC ({{ (wallet.total_sent / 1e8) * result.btc_to_inr | round(2) }} INR)<br>
+                Total Transactions: {{ wallet.n_tx }}
+            </div>
+            <hr>
+        {% endfor %}
+
+        <h2>Suspicious Wallets:</h2>
+        {% for cluster_label, wallets in result.fund_summary.suspicious_wallets.items() %}
+            <h3>Cluster {{ cluster_label }}</h3>
+            {% for wallet in wallets %}
+                <div>
+                    <strong>Address:</strong> {{ wallet.address }}<br>
+                    Balance: {{ wallet.balance / 1e8 }} BTC ({{ (wallet.balance / 1e8) * result.btc_to_inr | round(2) }} INR)<br>
+                    Total Received: {{ wallet.total_received / 1e8 }} BTC ({{ (wallet.total_received / 1e8) * result.btc_to_inr | round(2) }} INR)<br>
+                    Total Sent: {{ wallet.total_sent / 1e8 }} BTC ({{ (wallet.total_sent / 1e8) * result.btc_to_inr | round(2) }} INR)<br>
+                    Total Transactions: {{ wallet.n_tx }}
+                </div>
+                <hr>
+            {% endfor %}
+        {% endfor %}
+
+        <h2>Matched Wallets:</h2>
+        {% if result.matched_wallets %}
+            {% for wallet in result.matched_wallets %}
+                <div>
+                    <strong>Address:</strong> {{ wallet.address }}<br>
+                    Balance: {{ wallet.balance / 1e8 }} BTC<br>
+                    Total Received: {{ wallet.total_received / 1e8 }} BTC<br>
+                    Total Sent: {{ wallet.total_sent / 1e8 }} BTC<br>
+                    Known Entity: {{ wallet.entity or 'Unknown' }}
+                </div>
+                <hr>
+            {% endfor %}
+        {% else %}
+            <p>No matched wallets found in the given dataset.</p>
+        {% endif %}
+    {% endif %}
+
+    <a href="/">Back to Home</a>
+</body>
+</html>
