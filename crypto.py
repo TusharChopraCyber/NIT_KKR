@@ -5,11 +5,11 @@ import csv
 from requests.exceptions import RequestException
 # Test TX Hash: ed1b8647be6a514e589e9450255f7e85fee534c6b2536f8a04f64ed330087e7b
 # BlockCypher API token
-API_TOKEN = 'dad026feb2c84a0796b5ccfc8da2d803'
+API_TOKEN = '<YOUR-API-KEY>'
 BASE_URL = 'https://api.blockcypher.com/v1/btc/main/'
 
 # Manually enter the current value of 1 BTC to INR
-btc_to_inr = 5400000.00
+btc_to_inr = 5053094.57
 
 def get_transaction_details(tx_hash):
     """
@@ -219,7 +219,7 @@ def match_wallets(wallet_details, csv_data):
     return matched_wallets
 
 # Execution
-TX_HASH = input("Enter the transaction hash: ")
+TX_HASH = "ed1b8647be6a514e589e9450255f7e85fee534c6b2536f8a04f64ed330087e7b"
 
 try:
     input_wallets = trace_input_wallet(TX_HASH)
